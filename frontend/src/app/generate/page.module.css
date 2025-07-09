@@ -1,0 +1,73 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.sidebar {
+  width: 100vw;
+  background-color: var(--light);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 20px;
+  gap: 20px;
+}
+
+.sidebar .sideList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 35px;
+  padding-bottom: 40px;
+  padding-top: 40px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 38px;
+  flex-wrap: wrap;
+}
+
+.top2 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.MD_Parent {
+  width: 93%;
+  background-color: #FEFEFE;
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 1rem;
+  box-sizing: border-box;
+  min-height: 300px;
+  align-self: center;
+}
