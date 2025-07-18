@@ -3,12 +3,11 @@
   flex-direction: column;
   align-items: start;
   justify-content: center;
-  gap: 5px;
-  margin-bottom: 30px;
+  gap: 10px;
 }
 
 .inputContainer p {
-  color: #fff;
+  color: #555;
   font-weight: 600;
   font-size: var(--default_size);
 }
@@ -29,8 +28,9 @@
 }
 
 .LongButton {
-  background-color: #fff;
+  background-color: var(--primary);
   display: flex;
+  color: #fff;
   align-items: center;
   justify-content: center;
   align-self: center;

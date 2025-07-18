@@ -29,7 +29,7 @@ export async function deductCredits(userId, amount) {
   
   // Deduct credits
   const { data, error } = await supabase
-    .from('user_credits')
+    .from('credits')
     .update({ credits: currentCredits - amount })
     .eq('user_id', userId)
     .select()
@@ -49,7 +49,7 @@ export async function addCredits(userId, amount) {
   if (fetchError) {
     // If no record exists, create one
     const { data, error } = await supabase
-      .from('user_credits')
+      .from('credits')
       .insert({ user_id: userId, credits: amount })
       .select()
     
@@ -63,7 +63,7 @@ export async function addCredits(userId, amount) {
   
   // Update existing record
   const { data, error } = await supabase
-    .from('user_credits')
+    .from('credits')
     .update({ credits: currentCredits + amount })
     .eq('user_id', userId)
     .select()
@@ -78,7 +78,7 @@ export async function addCredits(userId, amount) {
 
 export async function initializeUserCredits(userId, initialCredits = 100) {
   const { data, error } = await supabase
-    .from('user_credits')
+    .from('credits')
     .insert({ user_id: userId, credits: initialCredits })
     .select()
   

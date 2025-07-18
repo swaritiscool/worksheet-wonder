@@ -174,16 +174,16 @@ export default function Home() {
       window.location.reload();
     }
   }
+
   return (
     <div className={styles.page}>
       <div className={styles.sidebar}>
         <div className={styles.settings}>
-          <p>Credits Left: {credits}</p>
-          <div style={{width: "50%", alignSelf: "center"}}>
-            <ButtonLongHot title="Create New Worksheet" onPress={newWorksheet} />
+          <p style={{fontWeight: "400"}}>Credits Left: {credits}</p>
+          <div style={{alignSelf: "right", display: 'flex', flexDirection: 'row', gap: "30px"}}>
+            <UtilsButton symbol="/add.svg" alt="increase credits" onClick={() => {router.push("/get-more-credits")}} />
+            <UtilsButton symbol="/gear.svg" alt="settings" onClick={() => {router.push("/settings")}} />
           </div>
-          <UtilsButton symbol="/add.svg" alt="increase credits" onClick={() => {router.push("/get-more-credits")}} />
-          <UtilsButton symbol="/gear.svg" alt="settings" onClick={() => {router.push("/settings")}} />
         </div>
         <div className={styles.sideList}>
         </div>
@@ -198,19 +198,22 @@ export default function Home() {
           </p>
         )}
         <div className={styles.inputs}>
-          <div className={styles.top2}>
-            <Input title="Title*" onChange={(e) => {setTitle(e.target.value)}} placeholder="Eg: Title of your worksheet"/>
-            <Input title="Include Answer Key*" onChange={(e) => {setAnswerKey(e.target.value)}} placeholder="Eg: Yes/No"/>
-            <Input title="Grade Level*" onChange={(e) => {setGrade(e.target.value)}} placeholder="Eg: 3rd Grade" />
-            <Input title="Board (Default: CBSE)" onChange={(e) => {setBoard(e.target.value)}} placeholder="Eg: CBSE" />
-            <Input title="Instructions" onChange={(e) => {setInstructions(e.target.value)}} placeholder="Eg: Extra instructions" />
-            <Input title="Difficulty*" onChange={(e) => {setDifficulty(e.target.value)}} placeholder="Eg: Hard / Easy / Moderately Hard" />
+          <ButtonLong 
+            title={`Generate Worksheet (${credits >= 10 ? '10 credits' : 'Insufficient credits'})`} 
+            onPress={handleSubmit} 
+            style={{alignSelf: "start"}}
+          />
+          <Input title="Title*" onChange={(e) => {setTitle(e.target.value)}} placeholder="Eg: Title of your worksheet"/>
+          <div style={{display: "flex"}}>
+            <Input style={{width: "95%"}} title="Grade Level*" onChange={(e) => {setGrade(e.target.value)}} placeholder="Eg: 3rd Grade" />
+            <Input style={{width: "95%"}} title="Board" onChange={(e) => {setBoard(e.target.value)}} placeholder="Eg: CBSE" />
           </div>
+          <div style={{display: "flex"}}>
+            <Input style={{width: "95%"}} title="Difficulty*" onChange={(e) => {setDifficulty(e.target.value)}} placeholder="Eg: Hard / Easy / Moderately Hard" />
+            <Input style={{width: "95%"}} title="Include Answer Key*" onChange={(e) => {setAnswerKey(e.target.value)}} placeholder="Eg: Yes/No"/>
+          </div>
+          <Input title="Instructions" onChange={(e) => {setInstructions(e.target.value)}} placeholder="Eg: Extra instructions" />
         </div>
-        <ButtonLong 
-          title={`Generate Worksheet (${credits >= 5 ? '5 credits' : 'Insufficient credits'})`} 
-          onPress={handleSubmit} 
-        />
         {loading && (
           <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
             <motion.div
