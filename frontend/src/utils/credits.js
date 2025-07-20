@@ -13,8 +13,6 @@ export async function getUserCredits(userId) {
       .eq('user_id', userId)
       .single()
 
-    console.log(await supabase.from('credits').select('id'))
-    
     if (error) {
       // If no row found, return 0 credits instead of error
       if (error.code === 'PGRST116') {

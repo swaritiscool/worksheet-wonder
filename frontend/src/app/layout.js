@@ -8,7 +8,7 @@ const poppins = Poppins({
 })
 
 export const metadata = {
-  title: "Generate Worksheets With AI",
+  title: "Thalio.app - Edu AI Assistant",
   description: "Generating worksheets using AI, helping you become efficient, faster and more productive",
 };
 

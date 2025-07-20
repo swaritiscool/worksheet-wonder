@@ -39,12 +39,15 @@ func callGenAI(prompt string) string {
 
 	result, err := client.Models.GenerateContent(
 		ctx,
-		"gemini-2.0-flash",
+		"gemini-2.0-flash-lite",
 		genai.Text(prompt),
 		nil,
 	)
 	if err != nil {
-		println("failed to generate content: %w", err)
+		return err.Error()
+	}
+	if result == nil {
+		return "Error: No result received from GenAI"
 	}
 
 	return result.Text()

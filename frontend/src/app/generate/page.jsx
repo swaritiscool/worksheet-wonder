@@ -40,7 +40,6 @@ export default function Home() {
     connectWebSocket();
     const fetchWS = async () => {
       const list = []
-      console.log("List:", list)
       setWsList(list.items)
     }
     fetchWS()
@@ -61,7 +60,6 @@ export default function Home() {
         }
         
         setUser(session.user)
-        console.log("ID: ", session.user.id)
         setIsAuthLoading(false)
       } catch (error) {
         console.error('Unexpected error during auth check:', error)
@@ -77,8 +75,9 @@ export default function Home() {
   }, [title, grade, instructions, difficulty, answerKey])
 
   const connectWebSocket = () => {
+    const route = process.env.NEXT_PUBLIC_API_ROUTE
     if (!socketRef.current || socketRef.current.readyState === WebSocket.CLOSED) {
-      socketRef.current = new WebSocket("http://localhost:8080/");
+      socketRef.current = new WebSocket(route);
 
       socketRef.current.onopen = () => {
         console.log("✅ WebSocket connected");
@@ -175,34 +174,55 @@ export default function Home() {
     }
   }
 
+  const handleCopyMarkdown = async () => {
+    if (editor.current != null) {
+      try {
+        await navigator.clipboard.writeText(editor.current);
+        alert("Markdown copied to clipboard!");
+      } catch (err) {
+        setError("Failed to copy text.");
+      }
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <div className={styles.sidebar}>
-        <div className={styles.settings}>
-          <p style={{fontWeight: "400"}}>Credits Left: {credits}</p>
-          <div style={{alignSelf: "right", display: 'flex', flexDirection: 'row', gap: "30px"}}>
-            <UtilsButton symbol="/add.svg" alt="increase credits" onClick={() => {router.push("/get-more-credits")}} />
-            <UtilsButton symbol="/gear.svg" alt="settings" onClick={() => {router.push("/settings")}} />
-          </div>
-        </div>
-        <div className={styles.sideList}>
-        </div>
-      </div>
       <div className={styles.main}>
-        {error != "" && (
-          <p style={{color: "#fe0", alignSelf: "center", fontWeight: 600}}>{error}</p>
-        )}
-        {creditsError && (
-          <p style={{color: "#fe0", alignSelf: "center", fontWeight: 600}}>
-            Credit Error: {creditsError.message || JSON.stringify(creditsError)}
-          </p>
-        )}
         <div className={styles.inputs}>
-          <ButtonLong 
+          <div className={styles.sidebar}>
+              <p style={{fontWeight: "400"}}>Credits Left: {credits}</p>
+              {error != "" && (
+                <p style={{color: "#f00", alignSelf: "center", fontWeight: 600}}>{error}</p>
+              )}
+              {creditsError && (
+                <p style={{color: "#f00", alignSelf: "center", fontWeight: 600}}>
+                  Credit Error: {creditsError.message || JSON.stringify(creditsError)}
+                </p>
+              )}
+          </div>
+            <ButtonLong 
             title={`Generate Worksheet (${credits >= 10 ? '10 credits' : 'Insufficient credits'})`} 
             onPress={handleSubmit} 
             style={{alignSelf: "start"}}
           />
+          {loading && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+              <motion.div
+                style={{
+                  width: '50px',
+                  height: '50px',
+                  backgroundColor: "#fff",
+                  borderRadius: "10px",
+                }}
+                animate={{ x: 100 }}
+                transition={{
+                  type: "spring",
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              />
+            </div>
+          )}
           <Input title="Title*" onChange={(e) => {setTitle(e.target.value)}} placeholder="Eg: Title of your worksheet"/>
           <div style={{display: "flex"}}>
             <Input style={{width: "95%"}} title="Grade Level*" onChange={(e) => {setGrade(e.target.value)}} placeholder="Eg: 3rd Grade" />
@@ -214,26 +234,9 @@ export default function Home() {
           </div>
           <Input title="Instructions" onChange={(e) => {setInstructions(e.target.value)}} placeholder="Eg: Extra instructions" />
         </div>
-        {loading && (
-          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-            <motion.div
-              style={{
-                width: '50px',
-                height: '50px',
-                backgroundColor: "#fff",
-                borderRadius: "10px",
-              }}
-              animate={{ x: 100 }}
-              transition={{
-                type: "spring",
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            />
-          </div>
-        )}
+        
         <div className={styles.MD_Parent}>
-          <UtilsButton symbol="/copy.svg" alt="copy" onClick={null} style={{marginBottom: "20px"}} />
+          <UtilsButton symbol="/copy.svg" alt="copy" onClick={null} style={{marginBottom: "20px"}} onClick={handleCopyMarkdown} />
           <Main_Editor
             key={contentVersion}
             markdown={editor.current != null ? editor.current : ""}

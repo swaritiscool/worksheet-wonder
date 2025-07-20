@@ -2,6 +2,7 @@
   --primary: #8800FF;
   --foreground: #000;
   --secondary: #9D2CFF;
+  --pop: #FFFF2F;
   --light: #fefefe;
   --default_size: 30px;
   --smaller_text: 20px;
@@ -17,7 +18,7 @@ body {
 
 body {
   color: var(--foreground);
-  background: var(--light);
+  background: var(--secondary);
   font-family: Arial, Helvetica, sans-serif;
   font-size: var(--default_size);
   -webkit-font-smoothing: antialiased;
